@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
-def normalization(data: pd.DataFrame, how: str = 'minmax') -> Tuple[pd.DataFrame, Any]:
+def normalize_flu(data: pd.DataFrame, how: str = 'minmax') -> Tuple[pd.DataFrame, Any]:
     '''
     주/년도의 2차원으로 구성된 테이블 데이터를 정규화 합니다.
     
@@ -42,4 +42,22 @@ def normalization(data: pd.DataFrame, how: str = 'minmax') -> Tuple[pd.DataFrame
             
     return norm, scaler
 
+
+def normalize_trends(data: pd.DataFrame, how: str = 'minmax') -> Tuple[pd.DataFrame, Any]:
+    '''
+    각 키워드의 
+    '''
+    if how == 'minmax':
+        scaler = MinMaxScaler()
+    else:
+        scaler = StandardScaler()
+    
+    no_weeks_columns = [col for col in data.columns if col != 'weeks']
+    norm = pd.DataFrame(scaler.fit_transform(data[no_weeks_columns]),
+                        columns=no_weeks_columns,
+                        index=data.index)
+    norm.insert(loc=0, column='weeks', value=data['weeks'])
+    
+    return norm, scaler
+    
     
