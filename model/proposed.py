@@ -1,8 +1,5 @@
-from os import name
 import tensorflow as tf
 import tensorflow.keras.layers as layers
-
-tf.random.uniform
 
 class Proposed(tf.keras.Model):
     def __init__(self, layer_size=128):
